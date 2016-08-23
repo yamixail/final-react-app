@@ -1,5 +1,4 @@
 var webpack = require('webpack')
-var LiveReloadPlugin = require('webpack-livereload-plugin')
 
 var isProduction = process.env.NODE_ENV === 'production';
 
@@ -48,6 +47,8 @@ if (isProduction) {
     ]);
 } else {
     // Development plugins only
+    var LiveReloadPlugin = require('webpack-livereload-plugin')
+
     module.exports.plugins.concat([
         new LiveReloadPlugin({
             port: process.env.PORT || 8080,
