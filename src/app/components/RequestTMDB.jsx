@@ -14,7 +14,7 @@ class RequestTMDB extends Component {
     }
 
     componentWillMount () {
-        const url = new URL('http://api.themoviedb.org/3' + this.props.path)
+        const url = new URL(location.protocol + '//api.themoviedb.org/3' + this.props.path)
         url.searchParams.append('api_key', '6a0faa2a8c71b6075d8fca40823c3a6d')
 
         if (this.props.oParams)
