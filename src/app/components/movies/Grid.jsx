@@ -34,7 +34,7 @@ class MovieGrid extends Component {
                         }}>
                         <Thumbnail
                             src={el.poster_path &&
-                                `http://image.tmdb.org/t/p/w${this.props.needWidth + el.poster_path}`}
+                                `${location.protocol}//image.tmdb.org/t/p/w${this.props.needWidth + el.poster_path}`}
                             alt={el.title}
                             style={{textAlign: 'center'}}>
                             <h4>{el.title}</h4>
