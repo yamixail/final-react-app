@@ -33,12 +33,15 @@ class MovieGrid extends Component {
         bottomPaging: false
     }
 
+    // Requirement from TMDB
+    static MAX_PAGES = 1000
+
     render () {
         if (this.props.error)
             return (
                 <Alert bsStyle="danger">
                     <h4>Oops...</h4>
-                    <p>{this.props.error.toString()}</p>
+                    <p>Something went wrong.</p>
                     <p><Button bsStyle="success" onClick={this.props.tryAgain}>Try again</Button></p>
                 </Alert>
             )
@@ -47,31 +50,30 @@ class MovieGrid extends Component {
 
         if (!moviesList) return <p>Loading... Please wait.</p>
 
+        if (!moviesList.length) return <p>Nothing found.</p>
+
         if (this.props.total_pages > 1 && (this.props.topPaging || this.props.bottomPaging))
             var PagingComp = () => (
-                <div>
-                    <Pagination
-                        prev
-                        next
-                        first
-                        last
-                        ellipsis
-                        boundaryLinks
-                        items={
-                            /*Requirement from TMDB*/
-                            this.props.total_pages > 1000
-                                ? 1000
-                                : this.props.total_pages
-                        }
-                        maxButtons={5}
-                        activePage={this.props.page}
-                        onSelect={this.props.onPageChange} />
-                </div>
+                <Pagination
+                    prev
+                    next
+                    first
+                    last
+                    ellipsis
+                    boundaryLinks
+                    items={
+                        this.props.total_pages > this.MAX_PAGES
+                            ? this.MAX_PAGES
+                            : this.props.total_pages
+                    }
+                    maxButtons={5}
+                    activePage={this.props.page}
+                    onSelect={this.props.onPageChange} />
             )
 
         return (
             <div>
-                {this.props.topPaging ? <PagingComp /> : null}
+                {this.props.topPaging && PagingComp ? <PagingComp /> : ''}
                 <Row>
                 {moviesList.map(el =>
                     <Col
@@ -93,7 +95,7 @@ class MovieGrid extends Component {
                     </Col>
                 )}
                 </Row>
-                {this.props.bottomPaging ? <PagingComp /> : null}
+                {this.props.bottomPaging && PagingComp  ? <PagingComp /> : ''}
             </div>
         )
     }
