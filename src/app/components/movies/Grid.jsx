@@ -2,28 +2,73 @@
 
 import React, { Component, PropTypes } from 'react'
 import {
-    Row,
+
+    Alert,
+    Button,
     Col,
-    Thumbnail,
-    Button
+    Pagination,
+    Row,
+    Thumbnail
 } from 'react-bootstrap'
 
 class MovieGrid extends Component {
     static propTypes = {
-        response: PropTypes.object,
         proportions: PropTypes.object,
-        needWidth: PropTypes.number
+        posterWidth: PropTypes.number,
+        topPaging: PropTypes.bool,
+        bottomPaging: PropTypes.bool,
+        onPageChange: PropTypes.func,
+        results: PropTypes.array,
+        page: PropTypes.number,
+        total_pages: PropTypes.number,
+        error: PropTypes.instanceOf(Error),
+        tryAgain: PropTypes.func
     }
 
     static defaultProps = {
+        list: [],
         proportions: {},
-        needWidth: 185
+        posterWidth: 185,
+        topPaging: false,
+        bottomPaging: false
     }
 
     render () {
+        if (this.props.error)
+            return (
+                <Alert bsStyle="danger">
+                    <h4>Oops...</h4>
+                    <p>{this.props.error.toString()}</p>
+                    <p><Button bsStyle="success" onClick={this.props.tryAgain}>Try again</Button></p>
+                </Alert>
+            )
+
+        const moviesList = this.props.results
+
+        if (!moviesList) return <p>Loading... Please wait.</p>
+
+        if (this.props.total_pages > 1 && (this.props.topPaging || this.props.bottomPaging))
+            var PagingComp = () => (
+                <div>
+                    <Pagination
+                        prev
+                        next
+                        first
+                        last
+                        ellipsis
+                        boundaryLinks
+                        items={this.props.total_pages}
+                        maxButtons={5}
+                        activePage={this.props.page}
+                        onSelect={this.props.onPageChange} />
+                </div>
+            )
+
         return (
-            <Row>
-                {this.props.response.results.map(el =>
+            <div>
+                {this.props.topPaging ? <PagingComp /> : null}
+                <Row>
+                {moviesList.map(el =>
                     <Col
                         key={el.id}
                         {...this.props.proportions}
@@ -34,7 +79,7 @@ class MovieGrid extends Component {
                         }}>
                         <Thumbnail
                             src={el.poster_path &&
-                                `${location.protocol}//image.tmdb.org/t/p/w${this.props.needWidth + el.poster_path}`}
+                                `${location.protocol}//image.tmdb.org/t/p/w${this.props.posterWidth + el.poster_path}`}
                             alt={el.title}
                             style={{textAlign: 'center'}}>
                             <h4>{el.title}</h4>
@@ -42,9 +87,11 @@ class MovieGrid extends Component {
                         </Thumbnail>
                     </Col>
                 )}
-            </Row>
+                </Row>
+                {this.props.bottomPaging ? <PagingComp /> : null}
+            </div>
         )
     }
 }
 
-export default MovieGrid;
+export default MovieGrid

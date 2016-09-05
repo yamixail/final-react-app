@@ -1,18 +1,23 @@
 'use strict'
 
 import React, { Component, PropTypes } from 'react'
-import {NavDropdown, MenuItem} from 'react-bootstrap'
+import {NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
 import {IndexLinkContainer} from 'react-router-bootstrap'
 
 class GenresDropdown extends Component {
     static propTypes = {
-        response: PropTypes.object
+        genres: PropTypes.array
     }
 
     render () {
+        if (!this.props.genres)
+            return <IndexLinkContainer to="/genres">
+                <NavItem>Genres</NavItem>
+            </IndexLinkContainer>
+
         return (
             <NavDropdown title="Genres" id="menu-genres-dropdown">
-                {this.props.response.genres.map(
+                {this.props.genres.map(
                     el =>
                         <IndexLinkContainer
                             key={el.id}

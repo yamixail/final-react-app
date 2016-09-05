@@ -26,7 +26,7 @@ module.exports = {
     },
 
     watch: !isProduction,
-    devtool: !isProduction && 'cheap-module-eval-source-map',
+    devtool: !isProduction && 'cheap-source-map',
 
     module: {
         loaders: [

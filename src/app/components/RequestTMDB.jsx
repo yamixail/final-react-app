@@ -8,33 +8,74 @@ class RequestTMDB extends Component {
         oParams: PropTypes.object,
         children: PropTypes.element.isRequired
     }
-
-    state = {
-        responseJSON: null
+    static defaultProps = {
+        oParams: {}
     }
 
-    componentWillMount () {
-        const url = new URL(location.protocol + '//api.themoviedb.org/3' + this.props.path)
+    state = {
+        requestUrl: null,
+        response: null
+    }
+
+    _createUrl(path, oParams = null) {
+        const url = new URL(location.protocol + '//api.themoviedb.org/3' + path)
+
         url.searchParams.append('api_key', '6a0faa2a8c71b6075d8fca40823c3a6d')
 
-        if (this.props.oParams)
-            for (let key in this.props.oParams)
-                url.searchParams.append(key, this.props.oParams[key])
+        if (oParams)
+            for (let key in oParams)
+                url.searchParams.append(key, oParams[key])
+
+        return url
+    }
+
+    _sendRequest (url) {
+        if (!url) return false
 
         fetch(url, {
             method: 'GET',
             mode: 'cors'
         })
         .then(response => response.json())
-        .then(json => this.setState({responseJSON: json}))
+        .then(json => this.setState({
+            requestUrl: url,
+            response: json
+        }))
+        .catch(error =>
+            this.setState({
+                requestUrl: null,
+                response: {
+                    error,
+                    tryAgain: () => this._sendRequest(url)
+                }
+            })
+        )
     }
 
-    render () {
-        if (!this.state.responseJSON) return false;
+    componentWillMount() {
+        const requestUrl = this._createUrl(this.props.path, this.props.oParams)
 
+        this._sendRequest(requestUrl)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const nextRequestUrl = this._createUrl(nextProps.path, nextProps.oParams)
+
+        // Prevent sending useless repeated requests
+        if (
+            !this.state.requestUrl ||
+            this.state.requestUrl.pathname !== nextRequestUrl.pathname ||
+            this.state.requestUrl.search !== nextRequestUrl.search
+        ) {
+            this._sendRequest(nextRequestUrl)
+        }
+    }
+
+
+    render () {
         return React.cloneElement(
             this.props.children,
-            {response: this.state.responseJSON}
+            this.state.response
         )
     }
 }

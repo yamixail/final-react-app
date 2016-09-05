@@ -1,11 +1,15 @@
 'use strict'
 
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
+import { withRouter } from 'react-router'
 import {Row} from 'react-bootstrap'
-import RequestTMDB from '../RequestTMDB'
-import MovieGrid from '../movies/Grid'
+import RequestTMDB from '../components/RequestTMDB'
+import MovieGrid from '../components/movies/Grid'
 
 class Home extends Component{
+    static propTypes = {
+        router: PropTypes.object.isRequired
+    }
     render () {
         return (
             <Row>
@@ -16,11 +20,11 @@ class Home extends Component{
                             md: 3,
                             sm: 4,
                             xs: 6
-                        }} />
+                        }}/>
                 </RequestTMDB>
             </Row>
         )
     }
 }
 
-export default Home
+export default withRouter(Home)
