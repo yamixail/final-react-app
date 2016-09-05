@@ -5,12 +5,14 @@ import { Route, IndexRoute } from 'react-router'
 import Main from './Main'
 import Home from './Home'
 import TopRated from './TopRated'
+import GenreMovies from './GenreMovies'
 import NoMatch from './NoMatch'
 
 export default (
 	<Route path="/" component={Main}>
 		<IndexRoute component={Home} />
 		<Route path="top" component={TopRated} />
+		<Route path="genre/:genreId" component={GenreMovies} />
 		<Route path="*" component={NoMatch} />
 	</Route>
 )

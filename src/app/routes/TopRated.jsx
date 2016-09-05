@@ -5,11 +5,10 @@ import { withRouter } from 'react-router'
 import RequestTMDB from '../components/RequestTMDB'
 import MovieGrid from '../components/movies/Grid'
 
-class Home extends Component{
+class TopRated extends Component{
     static propTypes = {
         location: PropTypes.object.isRequired,
-        router: PropTypes.object.isRequired,
-        routeParams: PropTypes.object.isRequired
+        router: PropTypes.object.isRequired
     }
 
     render () {
@@ -39,4 +38,4 @@ class Home extends Component{
     }
 }
 
-export default withRouter(Home)
+export default withRouter(TopRated)

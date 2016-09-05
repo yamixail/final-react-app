@@ -57,7 +57,12 @@ class MovieGrid extends Component {
                         last
                         ellipsis
                         boundaryLinks
-                        items={this.props.total_pages}
+                        items={
+                            /*Requirement from TMDB*/
+                            this.props.total_pages > 1000
+                                ? 1000
+                                : this.props.total_pages
+                        }
                         maxButtons={5}
                         activePage={this.props.page}
                         onSelect={this.props.onPageChange} />

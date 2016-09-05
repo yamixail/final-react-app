@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { Component, PropTypes } from 'react'
-import {NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
+import {NavItem, Nav} from 'react-bootstrap'
 import {IndexLinkContainer} from 'react-router-bootstrap'
 
 class GenresDropdown extends Component {
@@ -10,22 +10,19 @@ class GenresDropdown extends Component {
     }
 
     render () {
-        if (!this.props.genres)
-            return <IndexLinkContainer to="/genres">
-                <NavItem>Genres</NavItem>
-            </IndexLinkContainer>
+        if (!this.props.genres) return null
 
         return (
-            <NavDropdown title="Genres" id="menu-genres-dropdown">
+            <Nav bsStyle="pills" stacked>
                 {this.props.genres.map(
                     el =>
                         <IndexLinkContainer
                             key={el.id}
                             to={`/genre/${el.id}`}>
-                            <MenuItem>{el.name}</MenuItem>
+                            <NavItem>{el.name}</NavItem>
                         </IndexLinkContainer>
                 )}
-            </NavDropdown>
+            </Nav>
         )
     }
 }
