@@ -2,7 +2,6 @@
 
 import React, {Component, PropTypes} from 'react'
 import { withRouter } from 'react-router'
-import RequestTMDB from '../components/RequestTMDB'
 import MovieGrid from '../components/movies/Grid'
 
 class TopRated extends Component{
@@ -15,24 +14,22 @@ class TopRated extends Component{
         return (
             <div>
                 <h1>Top rated movies all time</h1>
-                <RequestTMDB
+                <MovieGrid
                     path="/movie/top_rated"
-                    oParams={this.props.location.query}>
-                    <MovieGrid
-                        proportions={{
-                            md: 3,
-                            sm: 4,
-                            xs: 6
-                        }}
-                        topPaging
-                        bottomPaging
-                        onPageChange={page =>
-                            this.props.router.push({
-                                pathname: '/top',
-                                query: {page}
-                            })
-                        } />
-                </RequestTMDB>
+                    oParams={this.props.location.query}
+                    proportions={{
+                        md: 3,
+                        sm: 4,
+                        xs: 6
+                    }}
+                    topPaging
+                    bottomPaging
+                    onPageChange={page =>
+                        this.props.router.push({
+                            pathname: '/top',
+                            query: {page}
+                        })
+                    } />
             </div>
         )
     }

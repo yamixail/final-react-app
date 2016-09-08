@@ -13,7 +13,6 @@ import {
     Button
 } from 'react-bootstrap'
 import { IndexLinkContainer } from 'react-router-bootstrap'
-import RequestTMDB from '../RequestTMDB'
 import GenresDropdown from './GenresDropdown'
 
 class Menu extends Component {
@@ -47,9 +46,7 @@ class Menu extends Component {
                         <IndexLinkContainer to="/top">
                             <NavItem>Top rated</NavItem>
                         </IndexLinkContainer>
-                        <RequestTMDB path="/genre/movie/list">
-                            <GenresDropdown />
-                        </RequestTMDB>
+                        <GenresDropdown path="/genre/movie/list" />
                         <IndexLinkContainer to="/filter">
                             <NavItem>Filter</NavItem>
                         </IndexLinkContainer>

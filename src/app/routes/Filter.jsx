@@ -3,27 +3,36 @@
 import React, {Component, PropTypes} from 'react'
 import {withRouter} from 'react-router'
 import {Col, Row} from 'react-bootstrap'
-import GenresLeftMenu from '../components/GenresLeftMenu'
+import FilterForm from '../components/filter/Form'
 import MovieGrid from '../components/movies/Grid'
 
-class GenreMovies extends Component{
+class Filter extends Component{
     static propTypes = {
         location: PropTypes.object.isRequired,
         router: PropTypes.object.isRequired,
         routeParams: PropTypes.object.isRequired
     }
 
+    state = {}
+
     render () {
         return (
             <div>
-                <h1>Movies by genres</h1>
+                <h1>Filter</h1>
                 <Row>
                     <Col md={3}>
-                        <GenresLeftMenu path="/genre/movie/list" />
+                        <FilterForm
+                            defaultValues={this.props.location.query}
+                            onSubmit={query =>
+                                this.props.router.push({
+                                    pathname: '/filter',
+                                    query
+                                })
+                            } />
                     </Col>
                     <Col md={9}>
                         <MovieGrid
-                            path={`/genre/${this.props.routeParams.genreId}/movies`}
+                            path="/discover/movie"
                             oParams={this.props.location.query}
                             proportions={{
                                 md: 4,
@@ -33,8 +42,11 @@ class GenreMovies extends Component{
                             bottomPaging
                             onPageChange={page =>
                                 this.props.router.push({
-                                    pathname: '/genre/' + this.props.routeParams.genreId,
-                                    query: {page}
+                                    pathname: '/filter',
+                                    query: {
+                                        ...this.props.location.query,
+                                        page
+                                    }
                                 })
                             } />
                     </Col>
@@ -44,4 +56,4 @@ class GenreMovies extends Component{
     }
 }
 
-export default withRouter(GenreMovies)
+export default withRouter(Filter)

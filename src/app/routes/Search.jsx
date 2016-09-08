@@ -4,7 +4,6 @@ import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import {withRouter} from 'react-router'
 import {Button, FormControl, FormGroup, InputGroup} from 'react-bootstrap'
-import RequestTMDB from '../components/RequestTMDB'
 import MovieGrid from '../components/movies/Grid'
 
 class Search extends Component{
@@ -30,23 +29,21 @@ class Search extends Component{
             content = <p>Please, use the words</p>
         else
             content = (
-                <RequestTMDB
+                <MovieGrid
                     path="/search/movie"
-                    oParams={this.props.location.query}>
-                    <MovieGrid
-                        proportions={{
-                            md: 3,
-                            sm: 4,
-                            xs: 6
-                        }}
-                        bottomPaging
-                        onPageChange={page =>
-                            this.props.router.push({
-                                pathname: '/search',
-                                query: {...queryObj, page}
-                            })
-                        } />
-                </RequestTMDB>
+                    oParams={this.props.location.query}
+                    proportions={{
+                        md: 3,
+                        sm: 4,
+                        xs: 6
+                    }}
+                    bottomPaging
+                    onPageChange={page =>
+                        this.props.router.push({
+                            pathname: '/search',
+                            query: {...queryObj, page}
+                        })
+                    } />
             )
 
         return (

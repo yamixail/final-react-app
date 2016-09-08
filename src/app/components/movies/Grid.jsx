@@ -10,19 +10,20 @@ import {
     Row,
     Thumbnail
 } from 'react-bootstrap'
+import requestTMDB from '../../requestTMDB'
+
+// Requirement from TMDB
+const MAX_PAGES = 1000
 
 class MovieGrid extends Component {
     static propTypes = {
+        path: PropTypes.string.isRequired,
+        oParams: PropTypes.object,
         proportions: PropTypes.object,
         posterWidth: PropTypes.number,
         topPaging: PropTypes.bool,
         bottomPaging: PropTypes.bool,
-        onPageChange: PropTypes.func,
-        results: PropTypes.array,
-        page: PropTypes.number,
-        total_pages: PropTypes.number,
-        error: PropTypes.instanceOf(Error),
-        tryAgain: PropTypes.func
+        onPageChange: PropTypes.func
     }
 
     static defaultProps = {
@@ -33,26 +34,54 @@ class MovieGrid extends Component {
         bottomPaging: false
     }
 
-    // Requirement from TMDB
-    static MAX_PAGES = 1000
+    state = {
+        json: {},
+        error: false
+    }
+
+    sendRequest(path, oParams) {
+        requestTMDB(path, oParams)
+            .then(json => this.setState({json, error: false}))
+            .catch(error => this.setState({json: {}, error}))
+    }
+
+    componentWillMount() {
+        this.sendRequest(this.props.path, this.props.oParams)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.sendRequest(nextProps.path, nextProps.oParams)
+    }
 
     render () {
-        if (this.props.error)
+        const {json, error} = this.state,
+            moviesList = json.results
+
+        if (error)
             return (
                 <Alert bsStyle="danger">
                     <h4>Oops...</h4>
                     <p>Something went wrong.</p>
-                    <p><Button bsStyle="success" onClick={this.props.tryAgain}>Try again</Button></p>
+                    <p>
+                        <Button
+                            bsStyle="success"
+                            onClick={() => this.sendRequest(
+                                this.props.path,
+                                this.props.oParams
+                            )}>
+                            Try again
+                        </Button>
+                    </p>
                 </Alert>
             )
 
-        const moviesList = this.props.results
 
         if (!moviesList) return <p>Loading... Please wait.</p>
 
         if (!moviesList.length) return <p>Nothing found.</p>
 
-        if (this.props.total_pages > 1 && (this.props.topPaging || this.props.bottomPaging))
+
+        if (json.total_pages > 1 && (this.props.topPaging || this.props.bottomPaging))
             var PagingComp = () => (
                 <Pagination
                     prev
@@ -62,12 +91,12 @@ class MovieGrid extends Component {
                     ellipsis
                     boundaryLinks
                     items={
-                        this.props.total_pages > this.MAX_PAGES
-                            ? this.MAX_PAGES
-                            : this.props.total_pages
+                        json.total_pages > MAX_PAGES
+                            ? MAX_PAGES
+                            : json.total_pages
                     }
                     maxButtons={5}
-                    activePage={this.props.page}
+                    activePage={json.page}
                     onSelect={this.props.onPageChange} />
             )
 
