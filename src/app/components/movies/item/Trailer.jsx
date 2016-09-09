@@ -49,12 +49,25 @@ class Trailer extends Component {
         return (
             <div>
                 <h3>Trailer</h3>
-                <iframe
-                    width="535"
-                    height="300"
-                    src={'https://www.youtube.com/embed/' + this.state.trailer.key}
-                    frameBorder="0"
-                    allowFullScreen />
+                <div
+                    style={{
+                        position: 'relative',
+                        paddingTop: '56.25%' // it's 1/(16:9)
+                    }}>
+                    <iframe
+                        width="535"
+                        height="300"
+                        src={'https://www.youtube.com/embed/' + this.state.trailer.key}
+                        frameBorder="0"
+                        allowFullScreen
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%'
+                        }} />
+                </div>
             </div>
         )
     }
