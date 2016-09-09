@@ -10,6 +10,7 @@ import {
     Row,
     Thumbnail
 } from 'react-bootstrap'
+import {LinkContainer} from 'react-router-bootstrap'
 import requestTMDB from '../../requestTMDB'
 
 // Requirement from TMDB
@@ -119,7 +120,9 @@ class MovieGrid extends Component {
                             alt={el.title}
                             style={{textAlign: 'center'}}>
                             <h4>{el.title}</h4>
-                            <Button bsStyle="primary" href={`/film/${el.id}`}>Details</Button>
+                            <LinkContainer to={'/movie/' + el.id}>
+                                <Button bsStyle="primary">Details</Button>
+                            </LinkContainer>
                         </Thumbnail>
                     </Col>
                 )}

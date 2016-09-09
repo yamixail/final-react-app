@@ -20,7 +20,7 @@ class FilterForm extends Component {
         this.state = {
             values: Object.assign(
                 {},
-                FilterForm.filterQueryParams,
+                FilterForm.filterDefaultQuery,
                 props.defaultValues
             )
         }
@@ -33,9 +33,10 @@ class FilterForm extends Component {
         onSubmit: PropTypes.func.isRequired
     }
 
-    static filterQueryParams = {
+    static filterDefaultQuery = {
+        'page': 1,
         'primary_release_year': '',
-        'sort_by': '',
+        'sort_by': 'popularity.desc',
         'vote_average.gte': '',
         'vote_average.lte': '',
         'vote_count.gte': '',

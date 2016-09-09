@@ -35,11 +35,8 @@ class Menu extends Component {
                 <Navbar.Header>
                     <Navbar.Toggle />
                 </Navbar.Header>
-                <Navbar.Collapse style={{
-                        marginLeft: '-30px',
-                        marginRight: '-15px'
-                    }}>
-                    <Nav stacked>
+                <Navbar.Collapse>
+                    <Nav>
                         <IndexLinkContainer to="/">
                             <NavItem>Main</NavItem>
                         </IndexLinkContainer>

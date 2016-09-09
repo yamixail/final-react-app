@@ -6,6 +6,7 @@ import Filter from './Filter'
 import GenreMovies from './GenreMovies'
 import Home from './Home'
 import Main from './Main'
+import MovieItem from './MovieItem'
 import NoMatch from './NoMatch'
 import Search from './Search'
 import TopRated from './TopRated'
@@ -15,6 +16,7 @@ export default (
 		<IndexRoute component={Home} />
 		<Route path="filter" component={Filter} />
 		<Route path="genre/:genreId" component={GenreMovies} />
+		<Route path="movie/:movieId" component={MovieItem} />
 		<Route path="search" component={Search} />
 		<Route path="top" component={TopRated} />
 		<Route path="*" component={NoMatch} />

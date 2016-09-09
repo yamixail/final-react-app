@@ -1,14 +1,10 @@
 'use strict'
 
-import React, {Component, PropTypes} from 'react'
-import { withRouter } from 'react-router'
+import React, {Component} from 'react'
 import {Row} from 'react-bootstrap'
 import MovieGrid from '../components/movies/Grid'
 
 class Home extends Component{
-    static propTypes = {
-        router: PropTypes.object.isRequired
-    }
     render () {
         return (
             <Row>
@@ -25,4 +21,4 @@ class Home extends Component{
     }
 }
 
-export default withRouter(Home)
+export default Home;
