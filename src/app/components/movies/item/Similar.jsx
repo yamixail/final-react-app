@@ -3,7 +3,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Button, Col, Row, Thumbnail} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
-import requestTMDB from '../../../requestTMDB'
+import requestTMDB, {getImgSrc} from '../../../requestTMDB'
 
 class Similar extends Component {
     static propTypes = {
@@ -38,7 +38,7 @@ class Similar extends Component {
                 {this.state.list.map(movie =>
                     <Col key={movie.id} md={2} sm={4} xs={6} >
                         <Thumbnail
-                            src={location.protocol + '//image.tmdb.org/t/p/w185' + movie.poster_path} >
+                            src={movie.poster_path && getImgSrc(movie.poster_path, 'w185')} >
                             <p
                                 style={{
                                     overflow: 'hidden',

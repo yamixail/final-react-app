@@ -2,6 +2,7 @@
 
 import React, {Component, PropTypes} from 'react'
 import {Button, Glyphicon, OverlayTrigger, Tooltip} from 'react-bootstrap'
+import {Link} from 'react-router'
 
 class Cast extends Component {
     static propTypes = {
@@ -64,21 +65,33 @@ class Cast extends Component {
             <div>
                 <h3>Cast</h3>
                 <ul className="list-unstyled">
-                    {castNowShow.map(person =>
-                        <li key={person.id}>
-                            <OverlayTrigger
-                                trigger={['hover', 'focus']}
-                                placement="left"
-                                overlay={
-                                    <Tooltip
-                                        id={'cast' + person.id}>
-                                        {'Character: ' + person.character}
-                                    </Tooltip>
-                                } >
-                                <a href="#">{person.name}</a>
-                            </OverlayTrigger>
-                        </li>
-                    )}
+                    {castNowShow.map(person => {
+                        if (!person.character)
+                            return (
+                                <li key={person.id}>
+                                        <Link to={'/person/' + person.id}>
+                                            {person.name}
+                                        </Link>
+                                </li>
+                            )
+                        return (
+                            <li key={person.id}>
+                                <OverlayTrigger
+                                    trigger={['hover', 'focus']}
+                                    placement="left"
+                                    overlay={
+                                        <Tooltip
+                                            id={'cast' + person.id}>
+                                            {'Character: ' + person.character}
+                                        </Tooltip>
+                                    } >
+                                    <Link to={'/person/' + person.id}>
+                                        {person.name}
+                                    </Link>
+                                </OverlayTrigger>
+                            </li>
+                        )
+                    })}
                 </ul>
                 {ToggleLink}
             </div>

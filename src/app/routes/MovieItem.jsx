@@ -2,7 +2,7 @@
 
 import React, {Component, PropTypes} from 'react'
 import {Col, Label, Thumbnail, Row} from 'react-bootstrap'
-import requestTMDB from '../requestTMDB'
+import requestTMDB, {getImgSrc} from '../requestTMDB'
 import Cast from '../components/movies/item/Cast'
 import Crew from '../components/movies/item/Crew'
 import Reviews from '../components/movies/item/Reviews'
@@ -43,9 +43,7 @@ class Home extends Component{
 
         if (!this.state.info) return <span />
 
-        const {info} = this.state,
-            posterThumbSrc = location.protocol +
-                '//image.tmdb.org/t/p/w300' + info.poster_path
+        const {info} = this.state
 
         return (
             <div>
@@ -56,7 +54,7 @@ class Home extends Component{
                         <Cast list={this.state.cast} />
                     </Col>
                     <Col md={3} mdPull={2} xs={6} xsPull={6} >
-                        <Thumbnail src={posterThumbSrc} alt={info.title} />
+                        <Thumbnail src={getImgSrc(info.poster_path, 'w300')} alt={info.title} />
                         <h4>Rating: {info.vote_average} <small>({info.vote_count} votes)</small></h4>
                     </Col>
                     <Col md={7} mdPull={2} xs={12} >

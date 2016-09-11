@@ -1,5 +1,12 @@
 'use strict'
 
+// width can be one of
+// "poster_sizes": ["w92", "w154", "w185", "w342", "w500", "w780", "original"],
+// "profile_sizes": ["w45", "w185", "h632", "original" ]
+function getImgSrc(path, width) {
+    return location.protocol + '//image.tmdb.org/t/p/' + width + path
+}
+
 let cache = new Map
 
 function sendRequest (path, oParams = {}) {
@@ -31,5 +38,6 @@ function sendRequest (path, oParams = {}) {
     return jsonPromise
 }
 
+export {getImgSrc}
 
 export default sendRequest;

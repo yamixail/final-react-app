@@ -11,7 +11,7 @@ import {
     Thumbnail
 } from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
-import requestTMDB from '../../requestTMDB'
+import requestTMDB, {getImgSrc} from '../../requestTMDB'
 
 // Requirement from TMDB
 const MAX_PAGES = 1000
@@ -30,7 +30,6 @@ class MovieGrid extends Component {
     static defaultProps = {
         list: [],
         proportions: {},
-        posterWidth: 185,
         topPaging: false,
         bottomPaging: false
     }
@@ -115,8 +114,7 @@ class MovieGrid extends Component {
                             verticalAlign: 'top'
                         }}>
                         <Thumbnail
-                            src={el.poster_path &&
-                                `${location.protocol}//image.tmdb.org/t/p/w${this.props.posterWidth + el.poster_path}`}
+                            src={el.poster_path && getImgSrc(el.poster_path, 'w185')}
                             alt={el.title}
                             style={{textAlign: 'center'}}>
                             <h4>{el.title}</h4>

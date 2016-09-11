@@ -1,6 +1,7 @@
 'use strict'
 
 import React, {Component, PropTypes} from 'react'
+import {Link} from 'react-router'
 import {Table} from 'react-bootstrap'
 
 class Crew extends Component {
@@ -60,12 +61,12 @@ class Crew extends Component {
                                 <td>{job.name}</td>
                                 <td>
                                     {job.people.map(person =>
-                                        <a
+                                        <Link
                                             key={person.id}
-                                            href="#"
+                                            to={'/person/' + person.id}
                                             style={{marginRight: '5px'}}>
                                             {person.name}
-                                        </a>
+                                        </Link>
                                     )}
                                 </td>
                             </tr>
